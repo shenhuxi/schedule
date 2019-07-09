@@ -1,46 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>zp-self</groupId>
-  <artifactId>zp-self-schedule-me</artifactId>
+  <groupId>com.matech</groupId>
+  <artifactId>mt-quartz</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>war</packaging>
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>1.5.14.RELEASE</version>
-    <relativePath />
-  </parent>
 
-  <name>zp-self-schedule-me</name>
-  <url>http://www.example.com</url>
+  <name>mt-quartz</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <java.version>1.8</java.version>
+
+    <apache.commons.lang3.version>3.7</apache.commons.lang3.version>
+    <apache.commons.io.version>2.6</apache.commons.io.version>
+    <apache.commons.beanutils.version>1.9.3</apache.commons.beanutils.version>
+
+    <springfox.swagger.version>2.8.0</springfox.swagger.version>
+    <quartz.version>2.3.0</quartz.version>
+    <pagehelper.version>5.0.0</pagehelper.version>
+
+    <mysql.version>5.1.45</mysql.version>
+    <h2.version>1.4.196</h2.version>
   </properties>
 
-  <repositories>
-    <repository>
-      <id>spring-milestones</id>
-      <name>Spring Milestones</name>
-      <url>https://repo.spring.io/libs-milestone</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.5.10.RELEASE</version>
+  </parent>
 
   <dependencies>
+
+    <!--启动项目-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!-- Logging -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+    </dependency>
+
+    <!-- Swagger API -->
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+      <version>${springfox.swagger.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+      <version>${springfox.swagger.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-bean-validators</artifactId>
+      <version>${springfox.swagger.version}</version>
+    </dependency>
+
+    <!-- utils -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${apache.commons.lang3.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${apache.commons.io.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>${apache.commons.beanutils.version}</version>
+    </dependency>
+
+    <!--jpa-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+
+
+    <!--spring mvc-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <!--lombok-->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+
     <!--quartz任务调度-->
     <dependency>
       <groupId>org.quartz-scheduler</groupId>
       <artifactId>quartz</artifactId>
-      <version>2.3.0</version>
+      <version>${quartz.version}</version>
       <exclusions>
         <exclusion>
           <artifactId>slf4j-api</artifactId>
@@ -54,17 +125,36 @@
       <artifactId>spring-context-support</artifactId>
     </dependency>
 
+    <!--分页-->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
+      <groupId>com.github.pagehelper</groupId>
+      <artifactId>pagehelper</artifactId>
+      <version>${pagehelper.version}</version>
+    </dependency>
+
+    <!--数据库-->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>${mysql.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>${h2.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
+      <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -72,23 +162,59 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>1.5.14.RELEASE</version>
+        <configuration>
+          <skip>true</skip>
+          <executable>true</executable>
+        </configuration>
+      </plugin>
+      <!-- 带源码发布到Nexus -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <configuration>
+          <attach>true</attach>
+        </configuration>
         <executions>
           <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
             <goals>
-              <goal>build-info</goal>
+              <goal>jar-no-fork</goal>
             </goals>
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
+
+  <!--Maven仓库地址  -->
+  <repositories>
+    <repository>
+      <id>matech-nexus</id>
+      <url>http://192.168.1.38:9876/nexus/content/groups/public/</url>
+      <releases><enabled>true</enabled></releases>
+      <snapshots><enabled>true</enabled></snapshots><!-- 允许使用不稳定的snapshot版本 -->
+    </repository>
+  </repositories>
+  <!-- Maven插件库地址 -->
+  <pluginRepositories>
+    <pluginRepository>
+      <id>matech-nexus-plugin</id>
+      <url>http://192.168.1.38:9876/nexus/content/groups/public/</url>
+      <releases><enabled>true</enabled></releases>
+      <snapshots><enabled>true</enabled></snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+  <distributionManagement>
+    <repository>
+      <id>m-matech-release</id>
+      <url>http://192.168.1.38:9876/nexus/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>m-matech-snapshots</id>
+      <url>http://192.168.1.38:9876/nexus/content/repositories/snapshots/</url>
+      <uniqueVersion>true</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
+
 </project>

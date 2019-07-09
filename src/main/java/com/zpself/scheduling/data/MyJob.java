@@ -1,9 +1,11 @@
-package com.zpself.scheduling.task;
+package com.zpself.scheduling.data;
 
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
+
+import java.time.LocalDateTime;
 
 /**
  * @author zengpeng
@@ -12,6 +14,12 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 public class MyJob extends QuartzJobBean {
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        System.out.println("hello,job");
+        System.out.println("start My Job：" + LocalDateTime.now());
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("end  My Job：" + LocalDateTime.now());
     }
 }
