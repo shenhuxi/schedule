@@ -1,2 +1,11 @@
+spring:
+  datasource:
+    name: MYDB
+    sql-script-encoding: utf-8
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.1.47:13306/mt_rd_exam_dev?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&useServerPrepStmts=false&rewriteBatchedStatements=true
+    username: reporting
+    password: 654321
+
 server:
   port: 8088

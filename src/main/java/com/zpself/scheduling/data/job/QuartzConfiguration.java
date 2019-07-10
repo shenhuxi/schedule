@@ -1,14 +1,13 @@
-package com.zpself.scheduling.data;
+package com.zpself.scheduling.data.job;
 
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author zengpeng
  * @date 2019/7/6
  */
-@Configuration
+//@Configuration
 public class QuartzConfiguration {
 
     /**

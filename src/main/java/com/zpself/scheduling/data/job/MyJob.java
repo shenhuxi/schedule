@@ -1,4 +1,4 @@
-package com.zpself.scheduling.data;
+package com.zpself.scheduling.data.job;
 
 
 import org.quartz.JobExecutionContext;
