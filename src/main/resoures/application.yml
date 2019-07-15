@@ -9,3 +9,17 @@ spring:
 
 server:
   port: 8088
+
+token:
+  header: Authorization
+  type: Bearer
+  secret: Matech!Secret$EAudit&
+  expiration: 604800
+
+#任务类的路径
+jobClassDir: com.zpself.scheduling.data.job;
+#执行任务的用户名
+jobAccount: admin
+#执行任务的密码
+jobPassword: 1
+#jobAuth: TASK_RETRIEVE

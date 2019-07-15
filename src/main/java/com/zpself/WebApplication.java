@@ -15,7 +15,7 @@ public class WebApplication {
         SpringApplication.run(WebApplication.class, args);
     }
 
- /*   @PostMapping("/upload")
+    @PostMapping("/upload")
     public String upload(){
         return "upload";
     }
@@ -23,6 +23,6 @@ public class WebApplication {
     @PostMapping("/download")
     public String download(){
         return "download";
-    }*/
+    }
 
 }
