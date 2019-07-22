@@ -136,7 +136,7 @@ public class ClassScanner {
     }
     public static void main(String[] args){
         ClassScanner a=new ClassScanner();
-        Set<Class<?>> classes = a.doScan("com.matech.quartz.data.job.impl");
+        Set<Class<?>> classes = a.doScan("com.zpself.scheduling.data.job.impl");
         for(Class clazz: classes){
             String name = clazz.getName();
             System.out.println(name);

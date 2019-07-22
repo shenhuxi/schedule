@@ -73,11 +73,9 @@ public class JobAndTriggerServiceImpl implements IJobAndTriggerService {
      */
     @Override
     public Boolean addJob(String jobClassName, String jobGroupName, String cronExpression) {
-
         try {
             // 启动调度器
             scheduler.start();
-
             //构建job信息
             JobDetail jobDetail = JobBuilder.newJob(getClass(jobClassName).getClass()).withIdentity(jobClassName, jobGroupName).build();
 

@@ -17,7 +17,7 @@ token:
   expiration: 604800
 
 #任务类的路径
-jobClassDir: com.zpself.scheduling.data.job;
+jobClassDir: com.zpself.scheduling.data.job.impl
 #执行任务的用户名
 jobAccount: admin
 #执行任务的密码
