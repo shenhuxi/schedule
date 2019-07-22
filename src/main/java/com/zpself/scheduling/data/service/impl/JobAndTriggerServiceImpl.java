@@ -1,12 +1,12 @@
 package com.zpself.scheduling.data.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.zpself.scheduling.data.repository.QrtzTriggersRepository;
+import com.zpself.scheduling.data.entity.QrtzJobManage;
+import com.zpself.scheduling.data.job.ApplicationContextUtil;
+import com.zpself.scheduling.data.job.JobDetailInfo;
+import com.zpself.scheduling.data.repository.QrtzJobManageRepository;
 import com.zpself.scheduling.data.service.IJobAndTriggerService;
-import com.zpself.scheduling.data.util.ClassScanner;
-import com.zpself.scheduling.web.dto.JobAndTrigger;
-import org.apache.commons.lang3.StringUtils;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * @author MingSu
@@ -27,14 +27,17 @@ import java.util.Set;
 @Transactional(rollbackFor = Exception.class)
 public class JobAndTriggerServiceImpl implements IJobAndTriggerService {
 
-    @Autowired
-    private QrtzTriggersRepository qrtzTriggersRepository;
+    private final QrtzJobManageRepository qrtzJobManageRepository;
     /**
-     * 加入Qulifier注解，通过名称注入bean
+     * 加入 Qualifier 注解，通过名称注入bean
      */
+    private final Scheduler scheduler;
+
     @Autowired
-    @Qualifier("scheduler")
-    private Scheduler scheduler;
+    public JobAndTriggerServiceImpl(QrtzJobManageRepository qrtzJobManageRepository, @Qualifier("scheduler") Scheduler scheduler) {
+        this.qrtzJobManageRepository = qrtzJobManageRepository;
+        this.scheduler = scheduler;
+    }
 
     /**
      * 分页查询
@@ -44,23 +47,10 @@ public class JobAndTriggerServiceImpl implements IJobAndTriggerService {
      * @return 返回值
      */
     @Override
-    public PageInfo<JobAndTrigger> getJobAndTriggerDetails(int pageNum, int pageSize) {
-        List<JobAndTrigger> list = new ArrayList<>();
-        PageHelper.startPage(pageNum, pageSize);
-        List<Object[]> result = qrtzTriggersRepository.getJobAndTriggerDetails();
-        for (Object[] obj : result) {
-            JobAndTrigger jobAndTrigger = new JobAndTrigger();
-            jobAndTrigger.setJobName(String.valueOf(obj[0]));
-            jobAndTrigger.setJobGroup(String.valueOf(obj[1]));
-            jobAndTrigger.setJobClassName(String.valueOf(obj[2]));
-            jobAndTrigger.setCronExpression(String.valueOf(obj[3]));
-            jobAndTrigger.setTriggerName(String.valueOf(obj[4]));
-            jobAndTrigger.setTriggerGroup(String.valueOf(obj[5]));
-            jobAndTrigger.setTriggerState(String.valueOf(obj[6]));
-            list.add(jobAndTrigger);
-        }
-
-        return new PageInfo<>(list);
+    public Page<QrtzJobManage> getJobAndTriggerDetails(int pageNum, int pageSize) {
+        Page<Object> objects = PageHelper.startPage(pageNum, pageSize);
+        List all = qrtzJobManageRepository.findAll();
+       return null;
     }
 
     /**
@@ -120,7 +110,7 @@ public class JobAndTriggerServiceImpl implements IJobAndTriggerService {
      * @return Boolean
      */
     @Override
-    public Boolean jobresume(String jobClassName, String jobGroupName) {
+    public Boolean jobResume(String jobClassName, String jobGroupName) {
         try {
             scheduler.resumeJob(JobKey.jobKey(jobClassName, jobGroupName));
             return true;
@@ -167,7 +157,7 @@ public class JobAndTriggerServiceImpl implements IJobAndTriggerService {
      * @return Boolean
      */
     @Override
-    public Boolean jobdelete(String jobClassName, String jobGroupName) {
+    public Boolean deleteJob(String jobClassName, String jobGroupName) {
         try {
             scheduler.pauseTrigger(TriggerKey.triggerKey(jobClassName, jobGroupName));
             scheduler.unscheduleJob(TriggerKey.triggerKey(jobClassName, jobGroupName));
@@ -179,26 +169,16 @@ public class JobAndTriggerServiceImpl implements IJobAndTriggerService {
 
     /**
      * 查询所有的任务类全名
-     * @param jobClassDir 任务类目录
      * @return 任务类全名集合
      */
     @Override
-    public List<String> findAllJobClassName(String jobClassDir) {
-       /* String path ="";
-        if(StringUtils.isNotBlank(jobClassDir)){
-            path=jobClassDir.replace(".","/");
-            path=this.getClass().getResource("/").getPath()+path;
-        }
-        return this.getFileNameList(jobClassDir,path);*/
-       List<String> result=new ArrayList<>();
-        ClassScanner classScanner=new ClassScanner();
-        Set<Class<?>> classes = classScanner.doScan(jobClassDir);
-        if(classes!=null&&classes.size()>0){
-            for(Class clazz: classes){
-                String name = clazz.getName();
-                if(StringUtils.isNotBlank(name)){
-                    result.add(name);
-                }
+    public List<String> findAllJobClassName() {
+        Map<String, JobDetailInfo> beansOfType = ApplicationContextUtil.getBeansOfType(JobDetailInfo.class);
+        List<String> result=new ArrayList<>();
+        if(beansOfType!=null && ! beansOfType.isEmpty()){
+            for (Map.Entry<String, JobDetailInfo> entry : beansOfType.entrySet()) {
+                result.add(entry.getValue().getClass().getName());
+                System.out.println(entry.toString()+":"+entry.getValue().getClass());
             }
         }
         return result;

@@ -6,7 +6,15 @@ spring:
     url: jdbc:mysql://192.168.1.47:13306/mt_rd_exam_dev?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&useServerPrepStmts=false&rewriteBatchedStatements=true
     username: reporting
     password: 654321
-
+  jpa:
+    open-in-view: false
+    show-sql: false
+    hibernate:
+      ddl-auto: update # Hibernate ddl auto (none, create, create-drop, update, validate)
+      #quartz框架建表名和字段需大写
+      naming:
+        implicit-strategy: com.zpself.scheduling.handler.MtNamingStrategy
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 server:
   port: 8088
 

@@ -1,6 +1,8 @@
 package com.zpself.scheduling.web.controller;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.zpself.scheduling.data.entity.QrtzJobManage;
 import com.zpself.scheduling.data.service.IJobAndTriggerService;
 import com.zpself.scheduling.web.dto.DataArray;
 import com.zpself.scheduling.web.dto.JobAndTrigger;
@@ -23,10 +25,6 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/api/job")
 public class JobController {
-
-
-    @Value("${jobClassDir}")
-    private String jobClassDir;
 
     @Autowired
     private IJobAndTriggerService jobAndTriggerService;
@@ -52,16 +50,16 @@ public class JobController {
 
 
     @ApiOperation(value = "恢复调度任务")
-    @PostMapping(value = "/resumejob")
-    public SingleData<Boolean> resumejob(
+    @PostMapping(value = "/resumeJob")
+    public SingleData<Boolean> jobResume(
             @ApiParam(value = "任务类全名") @RequestParam(value = "jobClassName") String jobClassName,
             @ApiParam(value = "任务组名") @RequestParam(value = "jobGroupName") String jobGroupName) throws Exception {
-        return new SingleData<>(jobAndTriggerService.jobresume(jobClassName, jobGroupName));
+        return new SingleData<>(jobAndTriggerService.jobResume(jobClassName, jobGroupName));
     }
 
 
     @ApiOperation(value = "修改cronExpression")
-    @PostMapping(value = "/reschedulejob")
+    @PostMapping(value = "/rescheduleJob")
     public SingleData<Boolean> rescheduleJob(
             @ApiParam(value = "任务类全名") @RequestParam(value = "jobClassName") String jobClassName,
             @ApiParam(value = "任务组名") @RequestParam(value = "jobGroupName") String jobGroupName,
@@ -71,31 +69,28 @@ public class JobController {
 
 
     @ApiOperation(value = "删除调度任务")
-    @PostMapping(value = "/deletejob")
-    public SingleData<Boolean> deletejob(
+    @PostMapping(value = "/deleteJob")
+    public SingleData<Boolean> deleteJob(
             @ApiParam(value = "任务类全名") @RequestParam(value = "jobClassName") String jobClassName,
             @ApiParam(value = "任务组名")  @RequestParam(value = "jobGroupName") String jobGroupName) throws Exception {
-        return new SingleData<>(jobAndTriggerService.jobdelete(jobClassName, jobGroupName));
+        return new SingleData<>(jobAndTriggerService.deleteJob(jobClassName, jobGroupName));
     }
 
 
     @ApiOperation(value = "分页查询调度任务")
     @GetMapping(value = "/queryjob")
-    public Map<String, Object> queryjob(
+    public Page<QrtzJobManage> queryjob(
             @ApiParam(value = "页号") @RequestParam(value = "pageNum") Integer pageNum,
             @ApiParam(value = "页面大小") @RequestParam(value = "pageSize") Integer pageSize) {
-        PageInfo<JobAndTrigger> jobAndTrigger = jobAndTriggerService.getJobAndTriggerDetails(pageNum, pageSize);
-        Map<String, Object> map = new HashMap<>();
-        map.put("JobAndTrigger", jobAndTrigger);
-        map.put("number", jobAndTrigger.getTotal());
-        return map;
+        Page<QrtzJobManage> jobAndTrigger = jobAndTriggerService.getJobAndTriggerDetails(pageNum, pageSize);
+        return jobAndTrigger;
     }
 
     @ApiOperation(value = "查询所有的任务类全名")
     @GetMapping(value = "/jobClassNameList")
     public DataArray<String> findAllJobClassName() {
         DataArray<String> result = null;
-        List<String> instanceNameList = jobAndTriggerService.findAllJobClassName(jobClassDir);
+        List<String> instanceNameList = jobAndTriggerService.findAllJobClassName();
         if (instanceNameList != null && instanceNameList.size() > 0) {
             String[] strs = new String[instanceNameList.size()];
             strs = instanceNameList.toArray(strs);

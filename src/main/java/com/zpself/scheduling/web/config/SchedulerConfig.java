@@ -73,9 +73,4 @@ public class SchedulerConfig {
         return schedulerFactoryBean().getScheduler();
     }
 
-    @Bean(name = "applicationContextUtil")
-    public ApplicationContextUtil applicationContextUtil() {
-        return new ApplicationContextUtil();
-    }
-
 }
