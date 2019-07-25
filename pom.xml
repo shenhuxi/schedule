@@ -3,8 +3,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
-  <groupId>com.matech</groupId>
+  <parent>
+    <groupId>com.matech</groupId>
+    <artifactId>framework</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+  <groupId>com.matech.quartz</groupId>
   <artifactId>mt-quartz</artifactId>
   <version>1.0-SNAPSHOT</version>
 
@@ -28,14 +32,19 @@
     <h2.version>1.4.196</h2.version>
   </properties>
 
-  <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>1.5.10.RELEASE</version>
-  </parent>
+
 
   <dependencies>
+    <dependency>
+      <groupId>com.matech.framework.util</groupId>
+      <artifactId>mt-framework-util-common</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
 
+    <dependency>
+      <groupId>com.matech.framework.core</groupId>
+      <artifactId>mt-framework-core-rest-api</artifactId>
+    </dependency>
     <!--启动项目-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -145,15 +154,16 @@
       <version>${h2.version}</version>
     </dependency>
 
-    <dependency>
+    <!--<dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
+    </dependency>-->
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
     </dependency>
+
 
   </dependencies>
 

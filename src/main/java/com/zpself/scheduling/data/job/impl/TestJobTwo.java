@@ -1,4 +1,4 @@
-package com.zpself.scheduling.data.util;
+package com.zpself.scheduling.data.job.impl;
 
 import com.zpself.scheduling.data.job.BaseJob;
 import com.zpself.scheduling.data.job.JobDetailInfo;

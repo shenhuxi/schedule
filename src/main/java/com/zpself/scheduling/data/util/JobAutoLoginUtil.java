@@ -1,6 +1,6 @@
-/*
 
-package com.zpself.scheduling.data.job;
+
+package com.zpself.scheduling.data.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +12,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 
-*/
+
 /**
  * @author MingSu
- *//*
+ */
 
 
-@Component("jobAutoLoginUtil")
+//@Component("jobAutoLoginUtil")
 public class JobAutoLoginUtil {
 
     @Autowired
@@ -38,4 +38,3 @@ public class JobAutoLoginUtil {
 
 }
 
-*/

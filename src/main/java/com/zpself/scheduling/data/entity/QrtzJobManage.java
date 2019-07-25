@@ -4,11 +4,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -21,10 +19,15 @@ import java.io.Serializable;
 @Setter
 public class QrtzJobManage implements Serializable {
 
+  /**
+   * 主键，新增时应当为null，受限javascript的long型数据精度问题，DTO中需转换为字符串类型
+   */
   @Id
-  @ApiModelProperty(value = "id")
-  @Column(name = "ID")
-  private String id;
+  @GeneratedValue(generator = "snowflake")
+  @GenericGenerator(name = "snowflake", strategy = "com.matech.framework.spring.jpa.SnowflakeIdGenerator")
+  private Long id;
+
+
 
   @ApiModelProperty(value = "触发时间")
   @Column(name = "FIRED_TIME")

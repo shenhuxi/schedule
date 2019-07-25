@@ -1,6 +1,5 @@
 package com.zpself.scheduling.web.config;
 
-import com.zpself.scheduling.data.job.ApplicationContextUtil;
 import org.quartz.Scheduler;
 import org.quartz.ee.servlet.QuartzInitializerListener;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,6 +52,7 @@ public class SchedulerConfig {
             prop.put("org.quartz.dataSource.qzDS.URL",url);
             prop.put("org.quartz.dataSource.qzDS.user",userName);
             prop.put("org.quartz.dataSource.qzDS.password",password);
+            prop.put("org.quartz.dataSource.qzDS.provider","hikaricp");
         }
         return prop;
     }

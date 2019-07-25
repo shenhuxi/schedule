@@ -1,4 +1,4 @@
-package com.zpself.scheduling.data.job;
+package com.zpself.scheduling.data.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
