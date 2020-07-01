@@ -28,7 +28,7 @@
     <quartz.version>2.3.0</quartz.version>
     <pagehelper.version>5.0.0</pagehelper.version>
 
-    <mysql.version>5.1.45</mysql.version>
+    <mysql.version>8.0.16</mysql.version>
     <h2.version>1.4.196</h2.version>
   </properties>
 
